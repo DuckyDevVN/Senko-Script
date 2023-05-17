@@ -1,0 +1,43 @@
+{
+    "name": "nostal",
+    "module": "Nostal.ts",
+    "type": "module",
+    "version": "0.10.6",
+    "devDependencies": {
+        "@types/get-image-colors": "^4.0.2",
+        "@types/node-cron": "^3.0.7",
+        "@types/uuid": "^9.0.1",
+        "@typescript-eslint/eslint-plugin": "^5.55.0",
+        "@typescript-eslint/parser": "^5.55.0",
+        "bun-types": "^0.5.0",
+        "eslint": "^8.36.0",
+        "tsx": "^3.12.6",
+        "typescript": "^5.0.2"
+    },
+    "dependencies": {
+        "@discordjs/builders": "^1.6.1",
+        "@types/ms": "^0.7.31",
+        "axios": "^1.3.5",
+        "better-sqlite3": "^8.2.0",
+        "canvas": "^2.11.0",
+        "discord.js": "^14.8.0",
+        "discordx": "^11.7.4",
+        "format-duration": "^3.0.2",
+        "get-image-colors": "^4.0.1",
+        "kazagumo": "^2.3.2",
+        "kazagumo-spotify": "^1.2.0",
+        "node-cron": "^3.0.2",
+        "node-segment": "^0.0.2",
+        "quick.db": "^9.1.1",
+        "shoukaku": "^3.3.1",
+        "uuid": "^9.0.0",
+        "youtubei": "^1.1.2"
+    },
+    "scripts": {
+        "build": "tsc",
+        "start": "tsx Nostal",
+        "dev": "tsx watch Nostal",
+        "init": "npm i && mkdir -p data && cp -n config.example.ts config.ts",
+        "test": "tsx test"
+    }
+}
