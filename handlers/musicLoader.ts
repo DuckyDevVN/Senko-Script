@@ -2,7 +2,7 @@ import { Kazagumo, KazagumoTrack } from "kazagumo";
 import Spotify from "kazagumo-spotify";
 import { Connectors, NodeOption } from "shoukaku";
 
-import { TextChannel, inlineCode, GuildMember, Message } from "discord.js";
+import { TextChannel, inlineCode, GuildMember, Message, VoiceChannel } from "discord.js";
 import { invalidateAllCachedThumbnail, invalidateCachedCard, invalidateCachedThumbnail } from "modules/images/nowPlayingCard";
 import Nostal from "../Nostal";
 import nowPlayingCard from "modules/images/nowPlayingCard";
@@ -100,13 +100,18 @@ export default function loadKazagumo(nostal: Nostal, nodes: NodeOption[], spotif
         player.voiceId = channels.newChannelId!;
     });
 
-    kazagumo.on("playerEmpty", player => {
-        (nostal.channels.cache.get(player.textId) as TextChannel).send("Hết nhạc tui sủi đây.");
+    kazagumo.on("playerEmpty",async player => {
+        const track = player.data.get("track") as KazagumoTrack;
+
         (player.data.get("message") as Message).delete();
         player.data.delete("message");
+        (nostal.channels.cache.get(player.textId) as TextChannel).send(`Hết bài ${inlineCode(track.title)} rồi nè :>`);
         invalidateCachedCard(player.guildId);
         invalidateAllCachedThumbnail();
-        player.destroy();
+        if ((await nostal.channels.cache.get(player.voiceId ?? "") as VoiceChannel).members.map.length < 1 || !player.voiceId) {
+            player.destroy();
+            (nostal.channels.cache.get(player.textId) as TextChannel).send("Hết nhạc tui sủi đây.");
+        }
     });
 
     kazagumo.on("playerStuck", (player, error) => {
